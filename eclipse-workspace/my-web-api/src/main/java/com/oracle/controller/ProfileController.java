@@ -1,15 +1,49 @@
 package com.oracle.controller;
 
+import java.util.List;
+
+import com.oracle.beans.Profile;
+import com.oracle.service.ProfileServiceImpl;
+
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 //http://ip:port/application-name/webapi/v1
 @Path("/v1")
 public class ProfileController {
-
+	// controller needs service object
+	private ProfileServiceImpl service;
+	public ProfileController() {
+		service = new ProfileServiceImpl();
+	}
+	// we need to use Response as a return type in Restful webservice
+	
+	@POST // call this webservice with HTTP POST
+	@Path("/profile")
+	@Produces(MediaType.APPLICATION_JSON) // produces json data from the response body
+	@Consumes(MediaType.APPLICATION_JSON) // consumes json data from the request body
+	public Response create(Profile p) {
+		Profile profile2 = service.store(p);
+		// Response object can takes status code and body of the response build creates a response object
+		return Response.status(201).entity(profile2).build();
+	}
+	
+	// a webservice to get all the profiles in JSON format
+	@GET
+	@Path("/profile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getProfiles() {
+		List<Profile> list = service.fetchProfiles();
+		return Response.status(200).entity(list).build();
+	}
+	
+	
 	@Path("/welcome")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
