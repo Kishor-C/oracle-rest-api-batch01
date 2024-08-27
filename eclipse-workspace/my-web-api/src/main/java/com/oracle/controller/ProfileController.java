@@ -3,6 +3,7 @@ package com.oracle.controller;
 import java.util.List;
 
 import com.oracle.beans.Profile;
+import com.oracle.exceptions.ProfileNotFoundException;
 import com.oracle.service.ProfileServiceImpl;
 
 import jakarta.ws.rs.Consumes;
@@ -22,6 +23,16 @@ public class ProfileController {
 	public ProfileController() {
 		service = new ProfileServiceImpl();
 	}
+	
+	// invoke fetchProfile by passing the id through path param
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/profile/{id}")
+	public Response getProfile(@PathParam("id") int profileId) throws ProfileNotFoundException {
+		Profile profile = service.fetchProfile(profileId);
+		return Response.status(200).entity(profile).build();
+	}
+	
 	// we need to use Response as a return type in Restful webservice
 	
 	@POST // call this webservice with HTTP POST
