@@ -24,6 +24,16 @@ public class ProfileController {
 		service = new ProfileServiceImpl();
 	}
 	
+	
+	@GET
+	@Path("/secured")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response securedResource() {
+		return Response.status(200).entity("Welcome to secured resource").build();
+	}
+	
+	
+	
 	// invoke fetchProfile by passing the id through path param
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
