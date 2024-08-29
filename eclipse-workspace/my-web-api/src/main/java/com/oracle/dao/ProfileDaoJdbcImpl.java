@@ -111,4 +111,26 @@ public class ProfileDaoJdbcImpl implements ProfileDao {
 		return profileObject;
 	}
 
+	@Override
+	public Profile update(Profile profile) {
+		String updateQuery = "update profile set name=?,password=?,phone=?,dob=? where profile_id=?";
+		try {
+			Connection con = getConnection();
+			PreparedStatement pstmt = con.prepareStatement(updateQuery);
+			pstmt.setString(1, profile.getName());
+			pstmt.setString(2, profile.getPassword());
+			pstmt.setLong(3, profile.getPhone());;
+			pstmt.setDate(4, java.sql.Date.valueOf(profile.getDob()));
+			pstmt.setInt(5, profile.getProfileId());
+			pstmt.executeUpdate();
+			pstmt.close();
+			con.close();
+			return findById(profile.getProfileId());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

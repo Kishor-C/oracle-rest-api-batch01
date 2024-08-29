@@ -9,6 +9,7 @@ import com.oracle.service.ProfileServiceImpl;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -23,7 +24,23 @@ public class ProfileController {
 	public ProfileController() {
 		service = new ProfileServiceImpl();
 	}
-	
+
+	// updating the phone by id
+	@PUT
+	@Path("/update/phone/{id}/{phone}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updatePhone(@PathParam("id") int id, @PathParam("phone") long phone) throws ProfileNotFoundException {
+		Profile p = service.updatePhoneById(id, phone);
+		return Response.status(200).entity(p).build();
+	}
+	// updating the password by id
+	@PUT
+	@Path("/update/password/{id}/{password}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updatePassword(@PathParam("id") int id, @PathParam("password") String password) throws ProfileNotFoundException {
+		Profile p = service.updatePasswordById(id, password);
+		return Response.status(200).entity(p).build();
+	}
 	
 	@GET
 	@Path("/secured")

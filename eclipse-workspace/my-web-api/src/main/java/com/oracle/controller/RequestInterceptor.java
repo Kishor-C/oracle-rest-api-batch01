@@ -9,7 +9,7 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
-@Provider
+//@Provider
 public class RequestInterceptor implements ContainerRequestFilter {
 
 	// this method is called for every request that is sent to the webservice

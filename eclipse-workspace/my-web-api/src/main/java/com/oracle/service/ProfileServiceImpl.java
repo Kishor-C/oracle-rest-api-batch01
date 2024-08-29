@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.oracle.beans.Profile;
 import com.oracle.dao.ProfileDao;
-import com.oracle.dao.ProfileDaoImpl;
+
 import com.oracle.dao.ProfileDaoJdbcImpl;
 import com.oracle.exceptions.ProfileNotFoundException;
 
@@ -15,6 +15,28 @@ public class ProfileServiceImpl {
 	public ProfileServiceImpl() {
 		dao = new ProfileDaoJdbcImpl();
 	}
+	
+	// update phone by id
+	public Profile updatePhoneById(int id, long phone) throws ProfileNotFoundException {
+		Profile profile = fetchProfile(id);
+		profile.setPhone(phone);
+		Profile updatedProfile = dao.update(profile);
+		if(updatedProfile == null) {
+			throw new RuntimeException("Something went wrong, failed to update");
+		}
+		return updatedProfile;
+	}
+	// update password by id
+	public Profile updatePasswordById(int id, String pwd) throws ProfileNotFoundException {
+		Profile profile = fetchProfile(id);
+		profile.setPassword(pwd);
+		Profile updatedProfile = dao.update(profile);
+		if(updatedProfile == null) {
+			throw new RuntimeException("Something went wrong, failed to update");
+		}
+		return updatedProfile;
+	}
+	
 	// create methods that calls CRUD operations of dao
 	public Profile store(Profile profile) {
 		Profile savedProfile = dao.save(profile);

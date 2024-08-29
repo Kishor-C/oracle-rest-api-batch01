@@ -14,5 +14,8 @@ public interface ProfileDao {
 
 	// a find by id method to return a profile or null
 	Profile findById(int id);
+	
+	// an update method that updates the Profile
+	Profile update(Profile profile);
 
 }
